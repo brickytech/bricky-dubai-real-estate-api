@@ -1,0 +1,214 @@
+openapi: 3.0.3
+
+info:
+  title: Dubai Transactions API
+  description: Dubai real estate transaction data API
+  version: 1.0.0
+
+servers:
+  - url: []
+
+paths:
+  /api/v1/transactions:
+    get:
+      summary: Get property transactions
+      description: Returns recent Dubai property transactions
+      parameters:
+        - name: area_name
+          in: query
+          description: Area name in English
+          required: true
+          schema:
+            type: string
+          example: Business Bay
+        - name: building_name
+          in: query
+          description: Building name in English
+          required: false
+          schema:
+            type: string
+          example: Voleo
+        - name: rooms
+          in: query
+          description: Number of rooms
+          required: false
+          schema:
+            type: string
+            enum:
+              - Studio
+              - 1 B/R
+              - 2 B/R
+              - 3 B/R
+              - 4 B/R
+          example: Studio 
+        - name: property_usage
+          in: query
+          description: Property usage
+          required: false
+          schema:
+            type: string
+            enum:
+              - Residential
+              - Hospitality
+          example: Residential
+        - name: has_parking
+          in: query
+          description: Parking availability (1 = yes, 0 = no)
+          required: false
+          schema:
+              type: integer
+          example: 1
+        - name: reg_type
+          in: query
+          description: Registration type
+          required: false
+          schema:
+            type: string
+            enum:
+              - Off-Plan Properties
+              - Existing Properties
+          example: Off-Plan Properties
+        - name: start_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          example: 2026-05-01
+        - name: end_date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          example: 2026-05-01
+        - name: next_token
+          in: query
+          description: Pagination token returned from the previous response
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of records returned
+          required: false
+          schema:
+            type: integer
+            default: 100
+            maximum: 500
+      responses:
+        '200':
+          description: Success
+  /api/v1/areas:
+    get:
+      summary: Get areas
+      description: Returns areas
+      parameters:
+        - name: next_token
+          in: query
+          description: Pagination token returned from the previous response
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Maximum number of records returned
+          required: false
+          schema:
+            type: integer
+            default: 100
+      responses:
+          '200':
+            description: Success
+  /api/v1/buildings:
+    get:
+      summary: Get buildings
+      description: Returns buildings
+      parameters:
+        - name: area_id
+          in: query
+          description: Internal area ID
+          required: false
+          schema:
+            type: string
+          example: area_032
+
+        - name: area_name
+          in: query
+          description: Area name in English
+          required: false
+          schema:
+            type: string
+          example: Burj Khalifa
+
+        - name: limit
+          in: query
+          description: Maximum number of records returned
+          required: false
+          schema:
+            type: integer
+            default: 100
+            minimum: 1
+            maximum: 500
+          example: 100
+
+        - name: next_token
+          in: query
+          description: Pagination token returned from the previous response
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  /api/v1/timeseries:
+    get: 
+      summary: Get monthly transaction time series 
+      description: Returns monthly aggregated transaction statistics
+      parameters: 
+        - name: area_name 
+          in: query 
+          description: Area name in English 
+          required: true 
+          schema: 
+            type: string 
+          example: Business Bay 
+        - name: building_name 
+          in: query 
+          description: Building name in English
+          required: false 
+          schema: 
+            type: string 
+          example: MERANO 
+        - name: rooms
+          in: query
+          description: Room configuration
+          required: false
+          schema:
+            type: string
+            enum:
+              - Studio
+              - 1 B/R
+              - 2 B/R
+              - 3 B/R
+              - 4 B/R
+          example: 2 B/R
+        - name: start_month 
+          in: query 
+          description: First month to include in YYYY-MM format 
+          required: true 
+          schema: 
+            type: string 
+            pattern: '^\d{4}-(0[1-9]|1[0-2])$' 
+          example: 2026-03 
+        - name: end_month 
+          in: query 
+          description: Last month to include in YYYY-MM format 
+          required: true 
+          schema: 
+            type: string 
+            pattern: '^\d{4}-(0[1-9]|1[0-2])$' 
+          example: 2026-05
+      responses:
+        '200':
+          description: Success
