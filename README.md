@@ -18,6 +18,21 @@ The API provides access to Dubai real estate transactions including:
 - Parking information
 - Recent and historical transactions
 
+The API also supports time-series analysis of the Dubai real estate market.
+
+Use time-series data to explore how property prices and transaction activity change over time for specific areas and market segments.
+
+Time-series data can be used for:
+
+- Property price trend analysis
+- Price per square meter trends
+- Transaction activity over time
+- Area-level market analysis
+- Real estate dashboards and charts
+- Historical market research
+
+Custom date ranges can be selected using `start_month` and `end_month`.
+
 ## Use cases
 
 Bricky API can be used to build:
